@@ -8,14 +8,14 @@ OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 SERP_API_KEY = st.secrets["SERP_API_KEY"]  
 
 model_name = "gpt-4-turbo-preview"
-def send_llm(prompt,data):
+def send_llm(prompt):
     last_prompt = st.session_state.the_last_prompt
     last_reply = st.session_state.the_last_reply
     
     system_prompting = "You are a helpful assistant."
     system_prompting += "Based on the documents provided below, please complete the task requested by the user:" 
     system_prompting += "\n\n"
-    system_prompting += data
+    system_prompting += st.session_state.uploaded_document
         
     client = OpenAI(
         api_key=OPENAI_API_KEY,
@@ -89,14 +89,10 @@ def fetch_serpapi_results(query):
 with st.sidebar:
   st.subheader("Upload Your CSV file")
   uploaded_file = st.file_uploader("Upload Your Document", type=["csv"])
-  submit_button = st.button("Upload Document")
-  
 
   if not "uploaded_document" in st.session_state:
         st.session_state.uploaded_document = ""
 
-  uploaded_document = st.session_state.uploaded_document
- 
   if not "the_last_reply" in st.session_state:
     st.session_state.the_last_reply = ""
   if not "the_last_prompt" in st.session_state:
@@ -111,7 +107,7 @@ your_prompt = st.chat_input ("Enter your Prompt:" )
 #submit_llm = st.button("Send")
 if your_prompt:
     st.session_state.the_last_prompt = your_prompt
-    response = send_llm(your_prompt,uploaded_document)
+    response = send_llm(your_prompt)
     st.session_state.the_last_reply = response.content
     st.write(response.content)
      
