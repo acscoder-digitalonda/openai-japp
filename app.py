@@ -5,7 +5,7 @@ import pandas as pd
 import serpapi
 
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]  
-SEPT_API_KEY = st.secrets["SEPT_API_KEY"]  
+SERP_API_KEY = st.secrets["SERP_API_KEY"]  
 
 model_name = "gpt-4-turbo-preview"
 def send_llm(prompt,data):
@@ -38,7 +38,7 @@ def fetch_serpapi_results(query):
     params = {
         "engine": "google",
         "q": query,
-        "api_key": SEPT_API_KEY  
+        "api_key": SERP_API_KEY  
     }
     search = serpapi.search(params)
     results = search.get_dict()
