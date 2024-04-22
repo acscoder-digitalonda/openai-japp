@@ -8,6 +8,13 @@ OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 SERP_API_KEY = st.secrets["SERP_API_KEY"]  
 
 model_name = "gpt-4-turbo-preview"
+def test_llm(prompt):
+    system_prompting = "You are a helpful assistant."
+    system_prompting += "Based on the documents provided below, please complete the task requested by the user:" 
+    system_prompting += "\n\n"
+    system_prompting += st.session_state.uploaded_document
+    return system_prompting
+
 def send_llm(prompt):
     last_prompt = st.session_state.the_last_prompt
     last_reply = st.session_state.the_last_reply
@@ -110,4 +117,4 @@ if your_prompt:
     response = send_llm(your_prompt)
     st.session_state.the_last_reply = response.content
     st.write(response.content)
-     
+    
